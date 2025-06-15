@@ -1,0 +1,47 @@
+# FastAPI and dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+starlette==0.27.0
+
+# Database
+sqlmodel==0.0.14
+sqlalchemy==2.0.41
+asyncpg==0.29.0
+alembic==1.13.1
+
+# Authentication & Security
+python-jose[cryptography]==3.3.0
+bcrypt==4.0.1
+python-multipart==0.0.6
+
+# Data validation
+pydantic==2.5.0
+pydantic-settings==2.1.0
+email-validator==2.2.0
+
+# Environment
+python-dotenv==1.1.0
+
+# HTTP client (for testing and OAuth)
+httpx==0.25.2
+
+# Redis for caching and sessions
+redis[hiredis]==5.0.1
+
+# Development and testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# Utilities
+python-slugify==8.0.1
+
+# Step 1: Password Security additions
+# (Already included in passlib[bcrypt] and python-jose[cryptography])
+
+# Session management and utilities
+pyotp==2.9.0
+qrcode[pil]==7.4.2
+slowapi==0.1.9
+
+# Future additions:
+# sib-api-v3-sdk - for Brevo email service (Step 5)
