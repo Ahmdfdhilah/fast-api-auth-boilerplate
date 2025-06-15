@@ -218,6 +218,30 @@ class UserRepository:
         
         await self.session.commit()
     
+    async def get_all_users(self, skip: int = 0, limit: int = 100) -> List[User]:
+        """Get all users with pagination."""
+        query = (
+            select(User)
+            .where(User.deleted_at.is_(None))
+            .offset(skip)
+            .limit(limit)
+            .order_by(User.created_at.desc())
+        )
+        result = await self.session.execute(query)
+        return result.scalars().all()
+
+    async def soft_delete(self, user_id: int) -> Optional[User]:
+        """Soft delete user."""
+        user = await self.get_by_id(user_id)
+        if not user:
+            return None
+
+        user.deleted_at = datetime.utcnow()
+        user.updated_at = datetime.utcnow()
+        await self.session.commit()
+        await self.session.refresh(user)
+        return user
+
     async def get_mfa_stats(self) -> dict:
         """Get MFA statistics."""
         # Total users

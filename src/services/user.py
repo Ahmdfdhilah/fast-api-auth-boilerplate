@@ -117,6 +117,33 @@ class UserService:
             "feedback": feedback
         }
     
+    async def get_all_users(self, skip: int = 0, limit: int = 100) -> list[UserResponse]:
+        """Get all users with pagination."""
+        users = await self.user_repo.get_all_users(skip=skip, limit=limit)
+        return [UserResponse.model_validate(user) for user in users]
+
+    async def update_user(self, user_id: int, user_data: UserUpdate) -> UserResponse:
+        """Update user."""
+        user = await self.user_repo.update(user_id, user_data)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+        
+        return UserResponse.model_validate(user)
+
+    async def delete_user(self, user_id: int) -> UserResponse:
+        """Soft delete user."""
+        user = await self.user_repo.soft_delete(user_id)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+        
+        return UserResponse.model_validate(user)
+
     async def unlock_user_account(self, user_id: int) -> UserResponse:
         """Unlock user account (admin function)."""
         user = await self.user_repo.get_by_id(user_id)

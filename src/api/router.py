@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from src.api.endpoints import auth, users, mfa, news
+from src.api.endpoints import auth, users, mfa, files
 
 api_router = APIRouter()
 
@@ -10,4 +10,4 @@ api_router = APIRouter()
 api_router.include_router(auth.router, prefix="/auth", tags=["authentication"])
 api_router.include_router(users.router, prefix="/users", tags=["users"])
 api_router.include_router(mfa.router, prefix="/mfa", tags=["multi-factor-authentication"])
-api_router.include_router(news.router, prefix="/admin/news", tags=["admin-news"])
+api_router.include_router(files.router, prefix="/files", tags=["files"])

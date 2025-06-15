@@ -121,3 +121,11 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     """Schema for token data."""
     user_id: Optional[int] = None
+
+
+class UserListResponse(BaseModel):
+    """Schema for user list response with pagination."""
+    users: List[UserResponse]
+    total: int
+    skip: int
+    limit: int

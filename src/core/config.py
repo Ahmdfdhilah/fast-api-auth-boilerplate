@@ -48,6 +48,27 @@ class Settings(BaseSettings):
     # File handling
     MAX_UPLOAD_SIZE: int = 10 * 1024 * 1024  # 10MB
     MAX_FILENAME_LENGTH: int = 50
+    ALLOWED_FILE_TYPES: str = "image/jpeg,image/png,image/gif,application/pdf,text/plain"
+    
+    # Storage Configuration
+    STORAGE_PROVIDER: str = "local"  # Options: local, aws_s3, gcp, azure_blob
+    STATIC_FILES_PATH: str = "static"
+    UPLOADS_PATH: str = "static/uploads"
+    
+    # AWS S3 Configuration
+    AWS_ACCESS_KEY_ID: Optional[str] = None
+    AWS_SECRET_ACCESS_KEY: Optional[str] = None
+    AWS_REGION: Optional[str] = None
+    AWS_S3_BUCKET: Optional[str] = None
+    
+    # Google Cloud Storage Configuration
+    GCP_PROJECT_ID: Optional[str] = None
+    GCP_STORAGE_BUCKET: Optional[str] = None
+    GCP_SERVICE_ACCOUNT_KEY_PATH: Optional[str] = None
+    
+    # Azure Blob Storage Configuration
+    AZURE_STORAGE_CONNECTION_STRING: Optional[str] = None
+    AZURE_STORAGE_CONTAINER: Optional[str] = None
 
     # Logging
     LOG_DIRECTORY: str = "logs"
@@ -117,6 +138,11 @@ class Settings(BaseSettings):
         if self.CORS_HEADERS == "*":
             return ["*"]
         return [header.strip() for header in self.CORS_HEADERS.split(",")]
+
+    @property
+    def ALLOWED_FILE_TYPES_LIST(self) -> List[str]:
+        """Convert ALLOWED_FILE_TYPES string to list."""
+        return [file_type.strip() for file_type in self.ALLOWED_FILE_TYPES.split(",")]
 
     model_config = SettingsConfigDict(
         env_file=".env",
